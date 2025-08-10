@@ -17,6 +17,8 @@ API para detecção de similaridade de textos com suporte a fallback para cálcu
 - Pipenv ou virtualenv
 - Chave da OpenAI *(opcional)*
 
+---
+
 ## 📊 Fluxo Fallback
 
 ```mermaid
@@ -32,3 +34,17 @@ flowchart TD
     M --> O["Salvar em comparisons - fonte: local"]
     N --> P["Responder JSON"]
     O --> P["Responder JSON"]
+
+---
+
+## 📦 Instalação
+
+```bash
+git clone https://github.com/seu-repo/ed-api-detector-python-backend.git
+cd ed-api-detector-python-backend
+
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+
+pip install -r requirements.txt
