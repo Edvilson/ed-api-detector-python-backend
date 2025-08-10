@@ -1,48 +1,34 @@
-# 🕵️‍♂️ ED API Detector Backend
+# 📝 API Detector de Plágio com Fallback
 
-API para detecção de similaridade entre textos, com suporte a:
-- **Embeddings OpenAI** (modelo `text-embedding-3-small`)
-- **Fallback local** (bag-of-words + similaridade de cosseno)
-- Autenticação JWT
-- Controle de API Key
+API para detecção de similaridade de textos com suporte a fallback para cálculo local quando a API da OpenAI não está disponível.
+
+## 🚀 Funcionalidades
+
+- Comparação de textos usando **OpenAI Embeddings** (quando disponível)
+- Fallback para cálculo de similaridade local (Bag-of-Words + Cosseno)
+- Autenticação **JWT**
+- Controle de **API Key**
 - Persistência de histórico no banco de dados (PostgreSQL / Supabase)
 
----
-
-## 🚀 Requisitos
+## 📋 Requisitos
 
 - Python 3.10+
 - Banco de dados PostgreSQL (pode usar Supabase)
 - Pipenv ou virtualenv
-- Chave da OpenAI **(opcional)**
-
----
+- Chave da OpenAI *(opcional)*
 
 ## 📊 Fluxo Fallback
 
 ```mermaid
 flowchart TD
-    A[Início: /api/compare] --> B{USE_OPENAI=true<br/>e OPENAI_API_KEY definida?}
-    B -- "Não" --> L[Calcular similaridade LOCAL<br/>(Bag-of-Words + Cosseno)]
-    B -- "Sim" --> C[Tentar Embeddings OpenAI<br/>(text-embedding-3-small)]
+    A[Início: /api/compare] --> B{USE_OPENAI=true e OPENAI_API_KEY definida?}
+    B -- Não --> L[Calcular similaridade LOCAL (Bag of Words + Cosseno)]
+    B -- Sim --> C[Tentar Embeddings OpenAI (text-embedding-3-small)]
     C -->|Sucesso| D[Cosine de embeddings]
-    C -->|Erro: 401/403/429/5xx<br/>timeout/rede| L
+    C -->|Erro: 401 / 403 / 429 / 5xx ou timeout| L
     D --> E[Classificar % → rótulo]
     L --> M[Classificar % → rótulo]
-    E --> N[Salvar em comparisons<br/>resultado.fonte = "openai"]
-    M --> O[Salvar em comparisons<br/>resultado.fonte = "local"]
+    E --> N[Salvar em comparisons - fonte: openai]
+    M --> O[Salvar em comparisons - fonte: local]
     N --> P[Responder JSON]
     O --> P[Responder JSON]
-
-
-## 📦 Instalação
-
-```bash
-git clone https://github.com/Edvilson/ed-api-detector-python-backend.git
-cd ed-api-detector-python-backend
-
-python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-.venv\Scripts\activate     # Windows
-
-pip install -r requirements.txt
