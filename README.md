@@ -34,7 +34,7 @@ flowchart TD
     M --> O["Salvar em comparisons - fonte: local"]
     N --> P["Responder JSON"]
     O --> P["Responder JSON"]
-
+```
 ---
 
 ## 📦 Instalação
