@@ -21,14 +21,14 @@ API para detecção de similaridade de textos com suporte a fallback para cálcu
 
 ```mermaid
 flowchart TD
-    A[Início: /api/compare] --> B{USE_OPENAI=true e OPENAI_API_KEY definida?}
-    B -- Não --> L[Calcular similaridade LOCAL (Bag of Words + Cosseno)]
-    B -- Sim --> C[Tentar Embeddings OpenAI (text-embedding-3-small)]
-    C -->|Sucesso| D[Cosine de embeddings]
+    A["Início: /api/compare"] --> B{"USE_OPENAI=true e OPENAI_API_KEY definida?"}
+    B -- "Não" --> L["Calcular similaridade LOCAL (Bag of Words + Cosseno)"]
+    B -- "Sim" --> C["Tentar Embeddings OpenAI (text-embedding-3-small)"]
+    C -->|Sucesso| D["Cosine de embeddings"]
     C -->|Erro: 401 / 403 / 429 / 5xx ou timeout| L
-    D --> E[Classificar % → rótulo]
-    L --> M[Classificar % → rótulo]
-    E --> N[Salvar em comparisons - fonte: openai]
-    M --> O[Salvar em comparisons - fonte: local]
-    N --> P[Responder JSON]
-    O --> P[Responder JSON]
+    D --> E["Classificar % → rótulo"]
+    L --> M["Classificar % → rótulo"]
+    E --> N["Salvar em comparisons - fonte: openai"]
+    M --> O["Salvar em comparisons - fonte: local"]
+    N --> P["Responder JSON"]
+    O --> P["Responder JSON"]
