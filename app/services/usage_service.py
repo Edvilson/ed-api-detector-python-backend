@@ -10,7 +10,13 @@ def check_daily_limit(user, db):
         raise HTTPException(status_code=500, detail="Plano inválido")
 
     today = datetime.utcnow().date()
-    total_today = db.query(func.count(Comparison.id)) \        .filter(Comparison.user_id == user.id) \        .filter(func.date(Comparison.created_at) == today) \        .scalar()
+    total_today = (
+                    db.query(func.count(Comparison.id))
+                    .filter(Comparison.user_id == user.id)
+                    .filter(func.date(Comparison.created_at) == today)
+                    .scalar()
+                    )
+
 
     if total_today >= plan.daily_limit:
         raise HTTPException(status_code=429, detail=f"Limite diário do plano '{plan.name}' atingido ({plan.daily_limit})")

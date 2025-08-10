@@ -1,17 +1,31 @@
-# Detector de Plágio - Backend (FastAPI)
+# 🕵️‍♂️ ED API Detector Backend
 
-## Rodando local
-1. Crie um `.env` baseado no `.env.example`
-2. `pip install -r requirements.txt`
-3. `uvicorn app.main:app --reload`
+API para detecção de similaridade entre textos, com suporte a:
+- **Embeddings OpenAI** (modelo `text-embedding-3-small`)
+- **Fallback local** (bag-of-words + similaridade de cosseno)
+- Autenticação JWT
+- Controle de API Key
+- Persistência de histórico no banco de dados (PostgreSQL / Supabase)
 
-## Segurança
-- Todas as rotas exigem `X-API-KEY` (mestra, definida no .env)
-- Rotas protegidas exigem JWT no header `Authorization: Bearer <token>`
-- `/docs` só aparece se `ENVIRONMENT=development`
+---
 
-## Endpoints
-- POST `/api/auth/register`
-- POST `/api/auth/login`
-- POST `/api/compare` (protegida; consome OpenAI embeddings)
-- PUT  `/api/plan?plan_name=free|pro|premium` (protegida)
+## 🚀 Requisitos
+
+- Python 3.10+
+- Banco de dados PostgreSQL (pode usar Supabase)
+- Pipenv ou virtualenv
+- Chave da OpenAI **(opcional)**
+
+---
+
+## 📦 Instalação
+
+```bash
+git clone https://github.com/Edvilson/ed-api-detector-python-backend.git
+cd ed-api-detector-python-backend
+
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+
+pip install -r requirements.txt
