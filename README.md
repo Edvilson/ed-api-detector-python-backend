@@ -18,8 +18,9 @@ API para detecção de similaridade entre textos, com suporte a:
 
 ---
 
-## Fluxo Fallback
+## 📊 Fluxo Fallback
 
+```mermaid
 flowchart TD
     A[Início: /api/compare] --> B{USE_OPENAI=true<br/>e OPENAI_API_KEY definida?}
     B -- "Não" --> L[Calcular similaridade LOCAL<br/>(Bag-of-Words + Cosseno)]
