@@ -18,6 +18,22 @@ API para detecção de similaridade entre textos, com suporte a:
 
 ---
 
+## Fluxo Fallback
+
+flowchart TD
+    A[Início: /api/compare] --> B{USE_OPENAI=true<br/>e OPENAI_API_KEY definida?}
+    B -- "Não" --> L[Calcular similaridade LOCAL<br/>(Bag-of-Words + Cosseno)]
+    B -- "Sim" --> C[Tentar Embeddings OpenAI<br/>(text-embedding-3-small)]
+    C -->|Sucesso| D[Cosine de embeddings]
+    C -->|Erro: 401/403/429/5xx<br/>timeout/rede| L
+    D --> E[Classificar % → rótulo]
+    L --> M[Classificar % → rótulo]
+    E --> N[Salvar em comparisons<br/>resultado.fonte = "openai"]
+    M --> O[Salvar em comparisons<br/>resultado.fonte = "local"]
+    N --> P[Responder JSON]
+    O --> P[Responder JSON]
+
+
 ## 📦 Instalação
 
 ```bash
